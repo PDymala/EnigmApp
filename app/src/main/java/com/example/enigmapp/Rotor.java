@@ -1,6 +1,5 @@
 package com.example.enigmapp;
 
-import android.util.Log;
 
 import java.util.ArrayList;
 import java.util.LinkedList;
@@ -111,7 +110,6 @@ public class Rotor {
 
 
         // rotating the rotor 1
-        Log.d("temp",temp.toString());
         if (rotorNumber == 0) {
             characterNumber = characterNumber % 95; // rotating only by the reminder of rotor lenght devided by
             // number of characters

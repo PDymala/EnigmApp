@@ -1,25 +1,17 @@
 package com.example.enigmapp;
 
-import androidx.appcompat.app.AppCompatActivity;
-
-import android.content.ClipData;
 import android.content.ClipboardManager;
 import android.content.Context;
 import android.content.Intent;
 import android.os.Bundle;
-import android.util.Log;
 import android.view.View;
 import android.widget.EditText;
 import android.widget.TextView;
 import android.widget.Toast;
 
-import java.io.BufferedReader;
-import java.io.File;
-import java.io.FileNotFoundException;
-import java.io.FileReader;
+import androidx.appcompat.app.AppCompatActivity;
+
 import java.io.IOException;
-import java.io.InputStream;
-import java.io.InputStreamReader;
 
 
 /**
@@ -35,12 +27,20 @@ import java.io.InputStreamReader;
 
 public class MainActivity extends AppCompatActivity {
 
-    private TextCoding textCoding;
+    TextView secretCode;
+    EditText textToEncode;
+    EditText textDecoded;
+    TextView mTextView;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
+         secretCode = (TextView) findViewById(R.id.secretCode);
+         textToEncode = (EditText) findViewById(R.id.textToEncode);
+         textDecoded = (EditText) findViewById(R.id.textDecoded);
+        mTextView =
+                (TextView) findViewById(R.id.secretCode);
     }
 
 
@@ -51,8 +51,6 @@ public class MainActivity extends AppCompatActivity {
 
         RandomSecretCode randomSecretCode = new RandomSecretCode(4);
 
-        TextView mTextView =
-                (TextView) findViewById(R.id.secretCode);
         mTextView.setText(randomSecretCode.getSecretCode());
         Toast.makeText(MainActivity.this, "Secret code generated", Toast.LENGTH_LONG).show();
 
@@ -65,22 +63,22 @@ public class MainActivity extends AppCompatActivity {
     public void runEnigma(View v) throws IOException {
 
 
-        TextView secretCode = (TextView) findViewById(R.id.secretCode);
-        EditText textToEncode = (EditText) findViewById(R.id.textToEncode);
-        EditText textDecoded = (EditText) findViewById(R.id.textDecoded);
 
         if (secretCode.getText().toString().length() < 4) {
-            Toast.makeText(MainActivity.this, "Too short or no secret code given ", Toast.LENGTH_LONG).show();
+            Toast.makeText(MainActivity.this, "Too short or no secret code given ", Toast.LENGTH_SHORT).show();
 
         } else if (textToEncode.getText().toString().isEmpty()) {
-            Toast.makeText(MainActivity.this, "No text given to encode", Toast.LENGTH_LONG).show();
+            Toast.makeText(MainActivity.this, "No text given to encode", Toast.LENGTH_SHORT).show();
 
         } else {
 
+            TextCoding textCoding;
             textCoding = new TextCoding(textToEncode.getText().toString(), String.valueOf(secretCode.getText()));
+
+
             textDecoded.setText(textCoding.getOutputText());
 
-            Toast.makeText(MainActivity.this, "Encoding successful", Toast.LENGTH_LONG).show();
+            Toast.makeText(MainActivity.this, "Encoding successful", Toast.LENGTH_SHORT).show();
 
         }
 
@@ -91,7 +89,7 @@ public class MainActivity extends AppCompatActivity {
      */
     public void pasteCodeButton(View v) {
 
-        EditText secretCode = (EditText) findViewById(R.id.secretCode);
+
         ClipboardManager clipboard = (ClipboardManager) getSystemService(Context.CLIPBOARD_SERVICE);
         try {
             CharSequence textToPaste = clipboard.getPrimaryClip().getItemAt(0).getText().subSequence(0, 4);
@@ -99,7 +97,7 @@ public class MainActivity extends AppCompatActivity {
         } catch (Exception e) {
             return;
         }
-        Toast.makeText(MainActivity.this, "Code passed ", Toast.LENGTH_LONG).show();
+        Toast.makeText(MainActivity.this, "Code passed ", Toast.LENGTH_SHORT).show();
 
     }
 
@@ -108,10 +106,9 @@ public class MainActivity extends AppCompatActivity {
      */
     public void shareCodeButton(View v) {
 
-        EditText secretCode = (EditText) findViewById(R.id.secretCode);
 
         if (secretCode.getText().toString().length() < 4) {
-            Toast.makeText(MainActivity.this, "Too short or no code given to share", Toast.LENGTH_LONG).show();
+            Toast.makeText(MainActivity.this, "Too short or no code given to share", Toast.LENGTH_SHORT).show();
         } else {
 
             Intent shareIntent = new Intent(Intent.ACTION_SEND);
@@ -129,7 +126,6 @@ public class MainActivity extends AppCompatActivity {
      * Button for passing text from clipboard into input text field
      */
     public void pasteButton(View v) {
-        EditText textToEncode = (EditText) findViewById(R.id.textToEncode);
         ClipboardManager clipboard = (ClipboardManager) getSystemService(Context.CLIPBOARD_SERVICE);
         try {
             CharSequence textToPaste = clipboard.getPrimaryClip().getItemAt(0).getText();
@@ -137,7 +133,7 @@ public class MainActivity extends AppCompatActivity {
         } catch (Exception e) {
             return;
         }
-        Toast.makeText(MainActivity.this, "Text passed into encoded frame", Toast.LENGTH_LONG).show();
+        Toast.makeText(MainActivity.this, "Text passed into encoded frame", Toast.LENGTH_SHORT).show();
     }
 
 
@@ -145,10 +141,9 @@ public class MainActivity extends AppCompatActivity {
      * Button for sharing output text
      */
     public void shareButton(View v) {
-        EditText textDecoded = (EditText) findViewById(R.id.textDecoded);
 
         if (textDecoded.getText().toString().isEmpty()) {
-            Toast.makeText(MainActivity.this, "No text given to share", Toast.LENGTH_LONG).show();
+            Toast.makeText(MainActivity.this, "No text given to share", Toast.LENGTH_SHORT).show();
         } else {
 
             Intent shareIntent = new Intent(Intent.ACTION_SEND);

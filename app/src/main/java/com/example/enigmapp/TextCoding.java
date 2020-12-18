@@ -1,12 +1,8 @@
 package com.example.enigmapp;
 
+
 import android.util.Log;
 
-import com.google.common.collect.BiMap;
-import com.google.common.collect.HashBiMap;
-
-import java.io.BufferedReader;
-import java.io.File;
 import java.util.ArrayList;
 import java.util.LinkedList;
 import java.util.List;
@@ -44,13 +40,14 @@ public class TextCoding {
 
         AsciiGenerator ascii = new AsciiGenerator();
         // temporary array that splits text into chars
-        String[] ary = inputText.split("");
+        char[] ary = inputText.toCharArray();
 
         // for each symbol it does the given function
         for (int x = 0; x < ary.length; x++) {
 
-            char character = ary[x].charAt(0);
+            char character = ary[x];
             int c = (int) character;
+
             characterNumber = x;
             // only possible to code writable ASCII symbols
             if (c > 31 && c < 127) {
